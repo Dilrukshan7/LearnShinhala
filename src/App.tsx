@@ -7,6 +7,9 @@ import {
   ShieldCheck,
   Globe,
   Sparkles,
+  Menu,
+  X,
+  ExternalLink,
 } from 'lucide-react';
 import { UILanguage } from './types';
 import { HomeView } from './components/HomeView';
@@ -23,6 +26,7 @@ export const App: React.FC = () => {
   const [previousTab, setPreviousTab] = useState<ActiveTab>('home');
   const [uiLang, setUiLang] = useState<UILanguage>('all');
   const [stats, setStats] = useState<any>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Explorer navigation parameters
   const [explorerQuery, setExplorerQuery] = useState('');
@@ -54,6 +58,7 @@ export const App: React.FC = () => {
     }
     setSelectedWordParam(idOrWord);
     setActiveTab('word-detail');
+    setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -63,6 +68,7 @@ export const App: React.FC = () => {
     setExplorerCategorySlug('');
     setExplorerDimensionCode('');
     setActiveTab('explorer');
+    setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -71,47 +77,54 @@ export const App: React.FC = () => {
     setExplorerCategorySlug(slug);
     setExplorerDimensionCode(dimensionCode);
     setActiveTab('explorer');
+    setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const navItems = [
+    { id: 'home', label: 'Encyclopedia', icon: BookOpen },
+    { id: 'explorer', label: 'Explorer & Taxonomy', icon: Compass },
+    { id: 'learning', label: 'Practice & Cards', icon: GraduationCap },
+    { id: 'contribute', label: 'Contribute', icon: PlusCircle },
+    { id: 'admin', label: 'AI Engine & Review', icon: Sparkles },
+  ];
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-ink-950">
-      {/* Top Archival Navigation Header */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200/90 shadow-sm">
+    <div className="min-h-screen flex flex-col bg-[#FAF8F4] text-ink-950">
+      {/* Editorial Global Header */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-parchment-300 shadow-subtle">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-          {/* Brand Logo */}
+          {/* Brand Seal & Monogram */}
           <button
             type="button"
-            onClick={() => setActiveTab('home')}
-            className="flex items-center gap-3 text-left group"
+            onClick={() => {
+              setActiveTab('home');
+              setMobileMenuOpen(false);
+            }}
+            className="flex items-center gap-3 text-left group focus-ring rounded-lg p-1 -ml-1 transition-opacity hover:opacity-95"
+            aria-label="Sinhala Vocabulary Encyclopedia Home"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-ceylon-700 to-ceylon-900 text-white flex items-center justify-center font-sinhala-serif font-extrabold text-xl shadow-sm group-hover:scale-105 transition-transform">
+            <div className="w-10 h-10 rounded-lg bg-ceylon-700 text-white flex items-center justify-center font-sinhala-serif font-bold text-xl shadow-subtle border border-ceylon-800 transition-transform group-hover:scale-[1.02]">
               සිං
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-extrabold text-sm sm:text-base text-ink-950 tracking-tight">
+                <span className="font-bold text-sm sm:text-base text-ink-950 tracking-tight font-sinhala-serif">
                   සිංහල ශබ්දකෝෂ විශ්වකෝෂය
                 </span>
-                <span className="hidden xl:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-leaf-100 text-leaf-800">
+                <span className="hidden xl:inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-forest-50 text-forest-700 border border-forest-200">
                   {stats?.counts?.total_entries ?? 35}+ Verified Entries
                 </span>
               </div>
-              <div className="text-[11px] text-stone-500 hidden sm:block">
-                Sinhala • <span className="font-tamil">தமிழ்</span> • English Linguistic Archive
+              <div className="text-[11px] text-ink-500 font-medium hidden sm:block">
+                Sinhala • <span className="font-tamil text-ink-600">தமிழ்</span> • English Trilingual Linguistic Archive
               </div>
             </div>
           </button>
 
-          {/* Primary Navigation Links */}
-          <nav className="flex items-center gap-1 sm:gap-1.5">
-            {[
-              { id: 'home', label: 'Home', icon: BookOpen },
-              { id: 'explorer', label: 'Explorer & Categories', icon: Compass },
-              { id: 'learning', label: 'Learn & Practice', icon: GraduationCap },
-              { id: 'contribute', label: 'Contribute', icon: PlusCircle },
-              { id: 'admin', label: 'AI Agent & Admin', icon: Sparkles },
-            ].map((item) => {
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-1" aria-label="Main Navigation">
+            {navItems.map((item) => {
               const Icon = item.icon;
               const isActive =
                 activeTab === item.id ||
@@ -122,45 +135,109 @@ export const App: React.FC = () => {
                   id={`nav-tab-${item.id}`}
                   type="button"
                   onClick={() => setActiveTab(item.id as ActiveTab)}
-                  className={`px-3 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 transition-colors ${
+                  className={`px-3 py-2 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition-all focus-ring ${
                     isActive
-                      ? 'bg-ceylon-700 text-white shadow-sm'
-                      : 'text-stone-700 hover:bg-stone-100'
+                      ? 'bg-ceylon-700 text-white shadow-subtle'
+                      : 'text-ink-700 hover:text-ink-950 hover:bg-parchment-200'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span className="hidden md:inline">{item.label}</span>
+                  <Icon className="w-4 h-4 shrink-0" />
+                  <span>{item.label}</span>
                 </button>
               );
             })}
           </nav>
 
-          {/* Trilingual Display Filter */}
-          <div className="hidden lg:flex items-center gap-1.5 bg-stone-100 p-1 rounded-xl border border-stone-200">
-            <Globe className="w-3.5 h-3.5 text-stone-500 ml-1.5" />
-            {[
-              { id: 'all', label: 'සිං • தமிழ் • EN' },
-              { id: 'ta', label: 'සිං + தமிழ்' },
-              { id: 'en', label: 'සිං + EN' },
-            ].map((l) => (
-              <button
-                key={l.id}
-                type="button"
-                onClick={() => setUiLang(l.id as UILanguage)}
-                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-colors ${
-                  uiLang === l.id
-                    ? 'bg-white text-ink-950 shadow-sm'
-                    : 'text-stone-600 hover:text-ink-950'
-                }`}
-              >
-                {l.label}
-              </button>
-            ))}
+          {/* Trilingual Segment Control & Mobile Toggle */}
+          <div className="flex items-center gap-2">
+            <div className="hidden sm:flex items-center gap-1 bg-parchment-200/80 p-0.5 rounded-lg border border-parchment-300">
+              <Globe className="w-3.5 h-3.5 text-ink-500 ml-1.5 shrink-0" />
+              {[
+                { id: 'all', label: 'සිං • தமிழ் • EN' },
+                { id: 'ta', label: 'සිං + தமிழ்' },
+                { id: 'en', label: 'සිං + EN' },
+              ].map((l) => (
+                <button
+                  key={l.id}
+                  type="button"
+                  onClick={() => setUiLang(l.id as UILanguage)}
+                  className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all focus-ring ${
+                    uiLang === l.id
+                      ? 'bg-white text-ink-950 shadow-subtle'
+                      : 'text-ink-600 hover:text-ink-950'
+                  }`}
+                >
+                  {l.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Mobile Menu Hamburger */}
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden p-2 rounded-lg text-ink-700 hover:text-ink-950 hover:bg-parchment-200 focus-ring"
+              aria-label="Toggle Navigation Menu"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Slide-down Drawer */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden border-t border-parchment-300 bg-white px-4 py-3 space-y-2 shadow-dropdown">
+            <div className="flex sm:hidden items-center justify-between gap-1 pb-2 border-b border-parchment-200">
+              <span className="text-xs font-semibold text-ink-600">Language Script:</span>
+              <div className="flex items-center gap-1 bg-parchment-100 p-0.5 rounded-md border border-parchment-300">
+                {[
+                  { id: 'all', label: 'All 3' },
+                  { id: 'ta', label: 'සිං + தமிழ்' },
+                  { id: 'en', label: 'සිං + EN' },
+                ].map((l) => (
+                  <button
+                    key={l.id}
+                    type="button"
+                    onClick={() => setUiLang(l.id as UILanguage)}
+                    className={`px-2 py-1 rounded text-[11px] font-semibold ${
+                      uiLang === l.id ? 'bg-white text-ink-950 shadow-subtle' : 'text-ink-600'
+                    }`}
+                  >
+                    {l.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-1">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      setActiveTab(item.id as ActiveTab);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`w-full px-3 py-2.5 rounded-lg text-xs font-semibold flex items-center gap-2.5 text-left transition-colors ${
+                      isActive
+                        ? 'bg-ceylon-700 text-white'
+                        : 'text-ink-800 hover:bg-parchment-200'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4 shrink-0" />
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </header>
 
-      {/* Main Content View */}
+      {/* Main Presentation View */}
       <main className="flex-1">
         {activeTab === 'home' && (
           <HomeView
@@ -218,38 +295,61 @@ export const App: React.FC = () => {
         )}
       </main>
 
-      {/* Scholarly Preservation Footer */}
-      <footer className="bg-[#181512] text-stone-300 border-t border-stone-800 py-8 px-4 sm:px-6 mt-12">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6 text-xs">
-          <div className="space-y-1.5 max-w-2xl">
-            <div className="font-bold text-white flex items-center gap-2 text-sm">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              Complete Sinhala Vocabulary Encyclopedia (සිංහල • தமிழ் • English)
+      {/* Archival Preservation Institutional Footer */}
+      <footer className="bg-ink-950 text-parchment-200 border-t border-ink-900 py-10 px-4 sm:px-6 mt-16">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8 text-xs">
+          <div className="space-y-2 max-w-2xl">
+            <div className="font-bold text-white flex items-center gap-2 text-sm font-sinhala-serif">
+              <ShieldCheck className="w-4 h-4 text-forest-400 shrink-0" />
+              මහා සිංහල ශබ්දකෝෂ විශ්වකෝෂය • Complete Sinhala Vocabulary Encyclopedia
             </div>
-            <p className="text-stone-400 leading-relaxed">
+            <p className="text-parchment-400 leading-relaxed">
               An open, continuously expanding trilingual linguistic preservation platform. All
-              entries are verified against public-domain dictionaries (Carter 1924, Clough 1892),
-              official trilingual glossaries, and human linguist review. No artificial vocabulary
-              cap is imposed, and unverified AI candidates are strictly segregated from verified
-              lexical facts.
+              entries are verified against public-domain historical dictionaries (Carter 1924, Clough 1892),
+              academic glossaries, and native linguist review. No artificial vocabulary cap is imposed,
+              and AI-discovered candidates are strictly quarantined until verified.
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-3 text-stone-400">
-            <button onClick={() => setActiveTab('explorer')} className="hover:text-white">
-              Orthographic Explorer (අ → ෆ)
+          <div className="flex flex-wrap items-center gap-4 text-parchment-300 font-medium">
+            <button
+              onClick={() => {
+                setActiveTab('explorer');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="hover:text-white transition-colors focus-ring rounded"
+            >
+              Orthographic Index (අ → ෆ)
             </button>
-            <span>•</span>
-            <button onClick={() => setActiveTab('learning')} className="hover:text-white">
-              Trilingual Flashcards
+            <span className="text-ink-700">•</span>
+            <button
+              onClick={() => {
+                setActiveTab('learning');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="hover:text-white transition-colors focus-ring rounded"
+            >
+              Trilingual Exercises
             </button>
-            <span>•</span>
-            <button onClick={() => setActiveTab('contribute')} className="hover:text-white">
-              Contribute Vocabulary
+            <span className="text-ink-700">•</span>
+            <button
+              onClick={() => {
+                setActiveTab('contribute');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="hover:text-white transition-colors focus-ring rounded"
+            >
+              Linguistic Contributions
             </button>
-            <span>•</span>
-            <button onClick={() => setActiveTab('admin')} className="hover:text-white">
-              10-Stage AI Pipeline
+            <span className="text-ink-700">•</span>
+            <button
+              onClick={() => {
+                setActiveTab('admin');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="hover:text-white transition-colors focus-ring rounded"
+            >
+              10-Stage Pipeline
             </button>
           </div>
         </div>
