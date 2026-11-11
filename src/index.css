@@ -4,46 +4,28 @@
 
 @layer base {
   :root {
-    --bg-parchment: #FAF8F4;
-    --bg-surface: #FFFFFF;
-    --ink-primary: #151210;
-    --ink-secondary: #4D463E;
-    --ink-muted: #847B70;
-    --border-subtle: #EAE2DA;
-    --border-strong: #D1C4B5;
-    --ceylon-brand: #A13A20;
-    --forest-verified: #1F6242;
-  }
-
-  html {
-    scroll-behavior: smooth;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    --bg-parchment: #faf7f2;
+    --bg-card: #ffffff;
+    --ink-primary: #1a1d24;
+    --accent-terracotta: #9e3b24;
+    --accent-emerald: #1b6b50;
   }
 
   body {
-    background-color: #FAF8F4;
-    color: #151210;
-    font-family: 'Plus Jakarta Sans', 'Noto Sans Sinhala', 'Noto Sans Tamil', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #faf7f2;
+    color: #1a1d24;
+    font-family: 'Plus Jakarta Sans', 'Noto Sans Sinhala', 'Noto Sans Tamil', system-ui, sans-serif;
     overflow-x: hidden;
-  }
-
-  ::selection {
-    background-color: #F8D0C3;
-    color: #38140B;
   }
 }
 
-/* Typographic classes for multilingual balance */
 .font-sinhala-serif {
-  font-family: 'Noto Serif Sinhala', 'Noto Sans Sinhala', Charter, Georgia, serif;
-  line-height: 1.4;
-  letter-spacing: -0.01em;
+  font-family: 'Noto Serif Sinhala', 'Noto Sans Sinhala', serif;
+  line-height: 1.45;
 }
 
 .font-sinhala-sans {
-  font-family: 'Noto Sans Sinhala', 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-family: 'Noto Sans Sinhala', system-ui, sans-serif;
   line-height: 1.5;
 }
 
@@ -52,48 +34,26 @@
   line-height: 1.5;
 }
 
-/* Restrained archival borders */
+/* Subtle archival paper texture header border */
 .archival-border {
-  border-color: #EAE2DA;
+  border-color: rgba(132, 59, 39, 0.16);
 }
 
-.archival-card {
-  background-color: #FFFFFF;
-  border: 1px solid #EAE2DA;
-  border-radius: 0.75rem;
-  box-shadow: 0 1px 3px 0 rgba(22, 20, 18, 0.04);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.archival-card:hover {
-  border-color: #D1C4B5;
-  box-shadow: 0 4px 12px -2px rgba(22, 20, 18, 0.06);
-}
-
-/* Accessible focus ring utility */
-.focus-ring {
-  outline: none;
-}
-.focus-ring:focus-visible {
-  outline: 2px solid #A13A20;
-  outline-offset: 2px;
-}
-
-/* Scholarly subtle scrollbars */
+/* Custom scrollbar for category tree */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F4EFEB;
+  background: #f3ede2;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D1C4B5;
+  background: #c8b69e;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #A13A20;
+  background: #9e3b24;
 }
