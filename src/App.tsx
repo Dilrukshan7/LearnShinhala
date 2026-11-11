@@ -103,6 +103,14 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-ink-950 font-sans">
+      {/* Accessible Skip Link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-ceylon-800 focus:font-bold focus:text-xs focus:rounded-lg focus:shadow-md focus:border focus:border-ceylon-700"
+      >
+        Skip to main content
+      </a>
+
       {/* Top Navigation Header */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200/90 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
@@ -131,7 +139,7 @@ export const App: React.FC = () => {
           </button>
 
           {/* Primary Learning Navigation (Desktop) */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-1" aria-label="Main Navigation">
             {[
               { id: 'home', label: 'Home', icon: BookOpen },
               { id: 'explorer', label: 'Dictionary', icon: Compass },
@@ -147,6 +155,7 @@ export const App: React.FC = () => {
                   key={item.id}
                   id={`nav-tab-${item.id}`}
                   type="button"
+                  aria-current={isActive ? 'page' : undefined}
                   onClick={() => navigateTo(item.id as ActiveTab)}
                   className={`px-3.5 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 transition-colors ${
                     isActive
@@ -268,7 +277,7 @@ export const App: React.FC = () => {
       </header>
 
       {/* Main Content Router */}
-      <main className="flex-1">
+      <main id="main-content" className="flex-1" tabIndex={-1}>
         {activeTab === 'home' && (
           <HomeView
             stats={stats}

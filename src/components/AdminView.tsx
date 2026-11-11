@@ -158,76 +158,76 @@ export const AdminView: React.FC<AdminViewProps> = ({ onSelectWord, onStatsUpdat
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-8">
       {/* Admin Top Header */}
-      <section className="bg-gradient-to-r from-[#1E222D] to-[#1A2E26] text-white rounded-2xl p-6 sm:p-8 shadow-md">
+      <section className="bg-white rounded-xl border border-stone-200 p-6 shadow-xs">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-amber-200 text-xs font-bold mb-2">
-              <Sparkles className="w-3.5 h-3.5" />
-              Lexicography Administration & Autonomous AI Research Control Center
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-stone-100 text-stone-700 text-xs font-semibold mb-2 border border-stone-200">
+              <Sparkles className="w-3.5 h-3.5 text-ceylon-700" />
+              AI Research Telemetry & Lexicography Console
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold">
-              Encyclopedia Operations, 10-Stage Verification & Review Queue
+            <h1 className="text-xl sm:text-2xl font-bold text-ink-950">
+              Operations, 10-Stage Verification & Review Queue
             </h1>
-            <p className="text-xs text-stone-300 mt-1">
-              Active LLM Provider:{' '}
-              <strong className="text-amber-200">{llmStatus.modelName || 'Corpus Verified'}</strong>{' '}
+            <p className="text-xs text-stone-500 mt-1">
+              Active Provider:{' '}
+              <strong className="text-ink-900">{llmStatus.modelName || 'Corpus Verified'}</strong>{' '}
               • Queue Engine:{' '}
-              <strong className="text-emerald-200">{queueStatus.mode || 'postgres-durable'}</strong>
+              <strong className="text-ink-900">{queueStatus.mode || 'postgres-durable'}</strong>
             </p>
           </div>
 
           <button
             type="button"
             onClick={loadDashboard}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white border border-white/15"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-stone-50 hover:bg-stone-100 text-xs font-bold text-ink-900 border border-stone-300 transition-colors"
           >
-            <RefreshCw className="w-4 h-4" /> Refresh Telemetry
+            <RefreshCw className="w-3.5 h-3.5 text-stone-600" /> Refresh Telemetry
           </button>
         </div>
 
         {/* Key Metrics Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mt-6">
-          <div className="bg-white/10 rounded-xl p-3.5 border border-white/10">
-            <div className="text-[11px] text-stone-300 uppercase font-semibold">Total Words</div>
-            <div className="text-2xl font-extrabold text-white mt-0.5">
+          <div className="bg-stone-50 rounded-lg p-3 border border-stone-200">
+            <div className="text-[11px] text-stone-500 uppercase font-semibold">Total Words</div>
+            <div className="text-xl sm:text-2xl font-extrabold text-ink-950 mt-0.5">
               {summary.total_vocabulary ?? 0}
             </div>
           </div>
-          <div className="bg-white/10 rounded-xl p-3.5 border border-white/10">
-            <div className="text-[11px] text-emerald-300 uppercase font-semibold">Verified</div>
-            <div className="text-2xl font-extrabold text-emerald-200 mt-0.5">
+          <div className="bg-stone-50 rounded-lg p-3 border border-stone-200">
+            <div className="text-[11px] text-leaf-800 uppercase font-semibold">Verified</div>
+            <div className="text-xl sm:text-2xl font-extrabold text-leaf-800 mt-0.5">
               {summary.verified_count ?? 0}
             </div>
           </div>
-          <div className="bg-white/10 rounded-xl p-3.5 border border-white/10">
-            <div className="text-[11px] text-amber-300 uppercase font-semibold">
+          <div className="bg-stone-50 rounded-lg p-3 border border-stone-200">
+            <div className="text-[11px] text-amber-800 uppercase font-semibold">
               Source-Supported
             </div>
-            <div className="text-2xl font-extrabold text-amber-200 mt-0.5">
+            <div className="text-xl sm:text-2xl font-extrabold text-amber-800 mt-0.5">
               {summary.source_supported_count ?? 0}
             </div>
           </div>
-          <div className="bg-white/10 rounded-xl p-3.5 border border-white/10">
-            <div className="text-[11px] text-sky-300 uppercase font-semibold">
+          <div className="bg-stone-50 rounded-lg p-3 border border-stone-200">
+            <div className="text-[11px] text-sky-800 uppercase font-semibold">
               Unverified / AI
             </div>
-            <div className="text-2xl font-extrabold text-sky-200 mt-0.5">
+            <div className="text-xl sm:text-2xl font-extrabold text-sky-800 mt-0.5">
               {(summary.unverified_count ?? 0) + (summary.ai_suggestion_count ?? 0)}
             </div>
           </div>
-          <div className="bg-white/10 rounded-xl p-3.5 border border-white/10">
-            <div className="text-[11px] text-amber-200 uppercase font-semibold">
-              Pending Human Review
+          <div className="bg-stone-50 rounded-lg p-3 border border-stone-200">
+            <div className="text-[11px] text-amber-900 uppercase font-semibold">
+              Pending Review
             </div>
-            <div className="text-2xl font-extrabold text-white mt-0.5">
+            <div className="text-xl sm:text-2xl font-extrabold text-amber-900 mt-0.5">
               {summary.pending_review_count ?? 0}
             </div>
           </div>
-          <div className="bg-white/10 rounded-xl p-3.5 border border-white/10">
-            <div className="text-[11px] text-stone-300 uppercase font-semibold">
+          <div className="bg-stone-50 rounded-lg p-3 border border-stone-200">
+            <div className="text-[11px] text-stone-500 uppercase font-semibold">
               Mean Confidence
             </div>
-            <div className="text-2xl font-extrabold text-white mt-0.5">
+            <div className="text-xl sm:text-2xl font-extrabold text-ink-950 mt-0.5">
               {summary.avg_confidence_score
                 ? `${(summary.avg_confidence_score * 100).toFixed(1)}%`
                 : '99.1%'}

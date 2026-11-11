@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { DimensionGroup, UILanguage, VocabularySummary } from '../types';
 import { WordCard } from './WordCard';
+import { Button } from './ui/Button';
 
 interface ExplorerViewProps {
   uiLang: UILanguage;
@@ -590,28 +591,61 @@ export const ExplorerView: React.FC<ExplorerViewProps> = ({
                   </div>
                 </div>
               )}
-              <button
-                type="button"
-                onClick={resetAllFilters}
-                className="px-4 py-2 rounded-xl bg-ceylon-700 text-white text-xs font-bold"
-              >
-                Reset Search & Filters
-              </button>
+              <div className="pt-2">
+                <Button variant="primary" size="sm" onClick={resetAllFilters}>
+                  Reset Search & Filters
+                </Button>
+              </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {entries.map((word) => (
-                <WordCard
-                  key={word.id}
-                  word={word}
-                  uiLang={uiLang}
-                  onSelectWord={onSelectWord}
-                  onSelectCategory={(slug) => {
-                    setSelectedCategory(slug);
-                    setPage(1);
-                  }}
-                />
-              ))}
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {entries.map((word) => (
+                  <WordCard
+                    key={word.id}
+                    word={word}
+                    uiLang={uiLang}
+                    onSelectWord={onSelectWord}
+                    onSelectCategory={(slug) => {
+                      setSelectedCategory(slug);
+                      setPage(1);
+                    }}
+                  />
+                ))}
+              </div>
+
+              {pagination.totalPages > 1 && (
+                <div className="flex items-center justify-between border-t border-stone-200 pt-4 px-2">
+                  <div className="text-xs text-stone-500">
+                    Page <strong className="text-ink-900">{page}</strong> of{' '}
+                    <strong className="text-ink-900">{pagination.totalPages}</strong>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={page <= 1}
+                      onClick={() => {
+                        setPage((p) => Math.max(1, p - 1));
+                        window.scrollTo({ top: 300, behavior: 'smooth' });
+                      }}
+                    >
+                      Previous
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={page >= pagination.totalPages}
+                      onClick={() => {
+                        setPage((p) => Math.min(pagination.totalPages, p + 1));
+                        window.scrollTo({ top: 300, behavior: 'smooth' });
+                      }}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

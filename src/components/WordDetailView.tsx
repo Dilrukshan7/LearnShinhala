@@ -157,41 +157,42 @@ export const WordDetailView: React.FC<WordDetailViewProps> = ({
       </div>
 
       {/* Hero Lexicon Header Card */}
-      <section className="bg-white rounded-2xl border border-stone-200/90 shadow-sm overflow-hidden">
-        <div className="bg-gradient-to-r from-[#221A15] via-[#2E2119] to-[#1F2D27] text-white p-6 sm:p-8">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <div className="flex flex-wrap items-center gap-2 mb-3">
+      <section className="bg-white rounded-xl border border-stone-200 shadow-xs overflow-hidden">
+        <div className="p-6 sm:p-8 border-b border-stone-200">
+          <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+            <div className="space-y-3">
+              <div className="flex flex-wrap items-center gap-2">
                 <VerificationBadge
                   status={entry.verification_status}
                   confidence={entry.confidence_score}
                 />
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-white/15 text-amber-200">
+                <span className="px-2 py-0.5 rounded text-xs font-semibold bg-stone-100 text-stone-700 border border-stone-200">
                   {entry.part_of_speech}
                 </span>
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/10 text-stone-200">
+                <span className="px-2 py-0.5 rounded text-xs font-medium bg-stone-100 text-stone-600">
                   Level: {entry.difficulty_level}
                 </span>
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/10 text-stone-200">
+                <span className="px-2 py-0.5 rounded text-xs font-medium bg-stone-100 text-stone-600">
                   Register: {entry.register}
                 </span>
                 {entry.is_demo_dataset && (
-                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-amber-400/20 text-amber-200 border border-amber-300/30">
-                    Foundation Reference Entry
+                  <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200">
+                    Foundation Entry
                   </span>
                 )}
               </div>
 
               <div className="flex flex-wrap items-center gap-4">
-                <h1 className="text-4xl sm:text-5xl font-extrabold font-sinhala-serif tracking-wide text-white">
+                <h1 className="text-3xl sm:text-5xl font-extrabold font-sinhala-serif tracking-tight text-ink-950">
                   {entry.sinhala_word}
                 </h1>
                 <button
                   type="button"
+                  aria-label={`Listen to pronunciation for ${entry.sinhala_word}`}
                   onClick={() =>
                     speakText(entry.sinhala_word, 'si-LK', entry.romanized_pronunciation)
                   }
-                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-ceylon-600 hover:bg-ceylon-500 text-white text-xs font-semibold shadow transition-colors"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-ceylon-700 hover:bg-ceylon-800 text-white text-xs font-bold shadow-xs transition-colors"
                 >
                   <Volume2 className="w-4 h-4" />
                   Pronounce ({entry.romanized_pronunciation})
@@ -199,42 +200,42 @@ export const WordDetailView: React.FC<WordDetailViewProps> = ({
               </div>
 
               {entry.grammatical_classification && (
-                <p className="mt-2 text-sm text-stone-300">
+                <p className="text-xs sm:text-sm text-stone-600">
                   {entry.grammatical_classification} •{' '}
-                  <span className="text-amber-200/90">{entry.spoken_vs_literary}</span>
+                  <span className="text-stone-800 font-medium">{entry.spoken_vs_literary}</span>
                 </p>
               )}
             </div>
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/15 min-w-[240px]">
-              <div className="text-[11px] uppercase tracking-wider text-stone-300 font-semibold mb-1.5">
-                Phonetic & Orthographic Profile
+            <div className="bg-[#FAF7F2] rounded-xl p-4 border border-stone-200 min-w-[260px] shrink-0 text-left">
+              <div className="text-[11px] uppercase tracking-wider text-stone-500 font-bold mb-2">
+                Phonetic Profile
               </div>
-              <div className="space-y-1 text-xs">
+              <div className="space-y-1.5 text-xs">
                 <div className="flex justify-between gap-4">
-                  <span className="text-stone-300">Romanized:</span>
-                  <span className="font-mono font-semibold text-amber-200">
+                  <span className="text-stone-500">Romanized:</span>
+                  <span className="font-mono font-semibold text-ink-950">
                     {pronunciation?.romanized_standard || entry.romanized_pronunciation}
                   </span>
                 </div>
                 {pronunciation?.ipa_transcription && (
                   <div className="flex justify-between gap-4">
-                    <span className="text-stone-300">IPA:</span>
-                    <span className="font-mono text-white">{pronunciation.ipa_transcription}</span>
+                    <span className="text-stone-500">IPA:</span>
+                    <span className="font-mono text-ink-950">{pronunciation.ipa_transcription}</span>
                   </div>
                 )}
                 {(pronunciation?.tamil_script_phonetic || entry.tamil_pronunciation_guide) && (
                   <div className="flex justify-between gap-4">
-                    <span className="text-stone-300">Tamil Phonetic:</span>
-                    <span className="font-tamil font-semibold text-emerald-200">
+                    <span className="text-stone-500">Tamil Phonetic:</span>
+                    <span className="font-tamil font-semibold text-ceylon-800">
                       {pronunciation?.tamil_script_phonetic || entry.tamil_pronunciation_guide}
                     </span>
                   </div>
                 )}
                 {pronunciation?.syllable_breakdown && (
                   <div className="flex justify-between gap-4">
-                    <span className="text-stone-300">Syllables:</span>
-                    <span className="font-mono text-stone-200">
+                    <span className="text-stone-500">Syllables:</span>
+                    <span className="font-mono text-stone-700">
                       {pronunciation.syllable_breakdown}
                     </span>
                   </div>
